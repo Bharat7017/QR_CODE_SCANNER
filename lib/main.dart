@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,12 +54,12 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Scanner"),
+        title: Center(child: Text("Scanner")),
       ),
       body: Column(
         children: [
           Expanded(
-            flex: 5,
+            flex: 4,
             child: QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
           ),
           Expanded(
@@ -67,41 +67,56 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
               child: Center(
                 child: Text(
                   "Scan Result:$result",
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               )),
           Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        if (result.isNotEmpty) {
-                          Clipboard.setData(
-                            ClipboardData(text: result),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Copied to clipboard"),
-                            ),
-                          );
-                        }
-                      },
-                      child: Text("Copy")),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        if (result.isNotEmpty) {
-                          final Uri _url = Uri.parse(result);
-                          await launchUrl(_url);
-                        }
-                      },
-                      child: Text("Open"))
-                ],
-              ))
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                    onPressed: () {
+                      if (result.isNotEmpty) {
+                        Clipboard.setData(
+                          ClipboardData(text: result),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Copied to clipboard"),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      "Copy",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                SizedBox(
+                  width: 50,
+                ),
+                ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                    onPressed: () async {
+                      if (result.isNotEmpty) {
+                        final Uri _url = Uri.parse(result);
+                        await launchUrl(_url);
+                      }
+                    },
+                    child: Text(
+                      "Open",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ))
+              ],
+            ),
+          ),
         ],
       ),
     );
